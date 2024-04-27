@@ -631,7 +631,7 @@ def big_time(request):
 @login_required(login_url='login')
 def history(request):
     user_transactions = models.IShareBundleTransaction.objects.filter(user=request.user).order_by(
-        'transaction_date').reverse()
+        'transaction_date').reverse()[:1000]
     header = "AirtelTigo Transactions"
     net = "tigo"
     context = {'txns': user_transactions, "header": header, "net": net}
@@ -640,7 +640,7 @@ def history(request):
 
 @login_required(login_url='login')
 def mtn_history(request):
-    user_transactions = models.MTNTransaction.objects.filter(user=request.user).order_by('transaction_date').reverse()
+    user_transactions = models.MTNTransaction.objects.filter(user=request.user).order_by('transaction_date').reverse()[:1000]
     header = "MTN Transactions"
     net = "mtn"
     context = {'txns': user_transactions, "header": header, "net": net}
@@ -650,7 +650,7 @@ def mtn_history(request):
 @login_required(login_url='login')
 def big_time_history(request):
     user_transactions = models.BigTimeTransaction.objects.filter(user=request.user).order_by(
-        'transaction_date').reverse()
+        'transaction_date').reverse()[:1000]
     header = "Big Time Transactions"
     net = "bt"
     context = {'txns': user_transactions, "header": header, "net": net}
@@ -659,7 +659,7 @@ def big_time_history(request):
 
 @login_required(login_url='login')
 def afa_history(request):
-    user_transactions = models.AFARegistration.objects.filter(user=request.user).order_by('transaction_date').reverse()
+    user_transactions = models.AFARegistration.objects.filter(user=request.user).order_by('transaction_date').reverse()[:1000]
     header = "AFA Registrations"
     net = "afa"
     context = {'txns': user_transactions, "header": header, "net": net}
@@ -689,7 +689,7 @@ def verify_transaction(request, reference):
 @login_required(login_url='login')
 def admin_mtn_history(request):
     if request.user.is_staff and request.user.is_superuser:
-        all_txns = models.MTNTransaction.objects.all().order_by('transaction_date').reverse()
+        all_txns = models.MTNTransaction.objects.all().order_by('transaction_date').reverse()[:1000]
         context = {'txns': all_txns}
         return render(request, "layouts/services/mtn_admin.html", context=context)
 
@@ -697,7 +697,7 @@ def admin_mtn_history(request):
 @login_required(login_url='login')
 def admin_bt_history(request):
     if request.user.is_staff and request.user.is_superuser:
-        all_txns = models.BigTimeTransaction.objects.filter().order_by('-transaction_date')
+        all_txns = models.BigTimeTransaction.objects.filter().order_by('-transaction_date')[:1000]
         context = {'txns': all_txns}
         return render(request, "layouts/services/bt_admin.html", context=context)
 
@@ -705,7 +705,7 @@ def admin_bt_history(request):
 @login_required(login_url='login')
 def admin_afa_history(request):
     if request.user.is_staff and request.user.is_superuser:
-        all_txns = models.AFARegistration.objects.filter().order_by('-transaction_date')
+        all_txns = models.AFARegistration.objects.filter().order_by('-transaction_date')[:1000]
         context = {'txns': all_txns}
         return render(request, "layouts/services/afa_admin.html", context=context)
 
